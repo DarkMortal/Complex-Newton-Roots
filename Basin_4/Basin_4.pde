@@ -80,8 +80,8 @@ void setup(){
       if(isOk){
           boolean x = closeTo(c2,root1), y = closeTo(c2,root2), z = closeTo(c2,root3);
           if(x) bright = color(val3,92,88);
-          else if(y) bright = color(val2,92,88);
-          else if(z) bright = color(val1,92,88);
+          else if(y) bright = color(val1,92,88);
+          else if(z) bright = color(val2,92,88);
       }
 
       pixels[i+j*650] = bright;
