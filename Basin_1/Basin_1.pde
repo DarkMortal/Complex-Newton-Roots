@@ -46,7 +46,7 @@ float Distance(Complex a,Complex b){
 }
 
 void setup(){
-  int bright = 0;
+  float val = 0;
   
   size(650,650);
   surface.setTitle("Complex Fractals");
@@ -70,18 +70,14 @@ void setup(){
            break;
          }
       }
-      
-      float val2 = map(n,0,maxIterations,255,300)*(float(n)/float(maxIterations));
-      float val1 = map(n,0,maxIterations,227,213)*float(maxIterations-n)/float(maxIterations);
-      
+            
       if(isOk){
           boolean x = closeTo(c2,root1), y = closeTo(c2,root2);
-          if(x) bright = color(val1,92,88);
-          else if(y) bright = color(val2,92,88);
-          else bright = color(122,91,83);
+          if(x) val = map(n,0,maxIterations,255,300)*(float(maxIterations-n)/float(maxIterations)); //blue
+          else if(y) val = map(n,0,maxIterations,255,300)*(float(n)/float(maxIterations)); //red
       }
-      else bright = color(122,91,83);
-      pixels[i+j*650] = bright;
+      else val = 122; //green
+      pixels[i+j*650] = color(val,92,88);
     }
   }
   updatePixels();
