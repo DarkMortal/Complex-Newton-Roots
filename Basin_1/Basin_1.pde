@@ -56,6 +56,9 @@ void setup(){
   pixelDensity(1);
   
   loadPixels();
+  
+  int t = millis();
+  
   for(int i=0;i<650;i++){
     for(int j=0;j<650;j++){
       float a = map(i,0,650,-range,range),
@@ -80,6 +83,10 @@ void setup(){
       pixels[i+j*650] = color(val,92,88);
     }
   }
+  
+  int p = millis();
+  println("Time required =",p-t,"ms");
+  
   updatePixels();
   save("./Basin1.png");
 }
