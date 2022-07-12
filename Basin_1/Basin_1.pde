@@ -73,7 +73,7 @@ void setup(){
             
       if(isOk){
           boolean x = closeTo(c2,root1), y = closeTo(c2,root2);
-          if(x) val = map(n,0,maxIterations,255,300)*(float(maxIterations-n)/float(maxIterations)); //blue
+          if(x) val = map(n,0,maxIterations,227,213)*(float(maxIterations-n)/float(maxIterations)); //blue
           else if(y) val = map(n,0,maxIterations,255,300)*(float(n)/float(maxIterations)); //red
       }
       else val = 122; //green
