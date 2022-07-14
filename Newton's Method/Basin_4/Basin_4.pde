@@ -20,7 +20,7 @@ class Complex{
 };
 
 final int maxIterations = 100;
-final float inf = 3500 , range = 2;
+final float range = 2;
 
 Complex N(Complex z){
   Complex z3 = z.product(z.product(z));
@@ -49,7 +49,7 @@ float Distance(Complex a,Complex b){
 
 void setup(){
   float val = 0;
-  
+    
   size(650,650);
   surface.setTitle("Complex Fractals");
   surface.setResizable(false);
@@ -63,26 +63,31 @@ void setup(){
   
   for(int i=0;i<650;i++){
     for(int j=0;j<650;j++){
-      float a = map(i,0,650,-0.3,0.3),
-            b = map(j,0,650,0.3,-0.3);
+      float a = map(i,0,650,-range,range),
+            b = map(j,0,650,range,-range);
       Complex c2 = new Complex(a,b);
       int n = 0;
-      boolean isOk = false;
+      boolean x = false, y = false, z = false;
       for(;n<maxIterations;n++){
          c2 = N(c2);
-         if(closeTo(c2,root1) || closeTo(c2,root2) || closeTo(c2,root3)){
-           isOk = true;
+         if(closeTo(c2,root1)){
+           x = true;
+           break;
+         }
+         if(closeTo(c2,root2)){
+           y = true;
+           break;
+         }
+         if(closeTo(c2,root3)){
+           z = true;
            break;
          }
       }
+            
+      if(x) val = map(n,0,maxIterations,100,138); //green
+      else if(y) val = map(n,0,maxIterations,227,213)*float(maxIterations-n)/float(maxIterations); //blue
+      else if(z) val = map(n,0,maxIterations,255,300)*(float(n)/float(maxIterations)); //red
       
-      if(isOk){
-          boolean x = closeTo(c2,root1), y = closeTo(c2,root2), z = closeTo(c2,root3);
-          if(x) val = map(n,0,maxIterations,100,138); //green
-          else if(y) val = map(n,0,maxIterations,227,213)*float(maxIterations-n)/float(maxIterations); //blue
-          else if(z) val = map(n,0,maxIterations,255,300)*(float(n)/float(maxIterations)); //red
-      }
-
       pixels[i+j*650] = color(val,92,88);
     }
   }
@@ -91,5 +96,5 @@ void setup(){
   println("Time required =",p-t,"ms");
   
   updatePixels();
-  save("./Basin5.png");
+  save("./Basin4.png");
 }

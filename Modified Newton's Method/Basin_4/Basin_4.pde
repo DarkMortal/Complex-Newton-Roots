@@ -20,22 +20,21 @@ class Complex{
 };
 
 final int maxIterations = 100;
-final float inf = 20 , range = 2;
+final float range = 2;
 
 Complex N(Complex z){
   Complex z3 = z.product(z.product(z));
-  z3.num_mul(2.0);
-  Complex z2 = z.product(z);
+  z3.real += 2.0;
+  Complex z2 = z;
   z2.num_mul(3.0);
-  z2.real -= 1;
-  return z3.divide(z2);
+  return z2.divide(z3);
 }
 
-final Complex root1 = new Complex(0,0), //blue
-              root2 = new Complex(1,0), //green
-              root3 = new Complex(-1,0); //red
+final Complex root1 = new Complex(1.0,0), //blue
+              root2 = new Complex(-0.5,pow(3,0.5)*(-0.5)), //green
+              root3 = new Complex(-0.5,pow(3,0.5)*(0.5)); //red
 
-final float epsilon = 0.1;
+final float epsilon = 0.01;
         
 boolean closeTo(Complex a,Complex b){
   float d = a.minus(b).MOD();
@@ -49,7 +48,7 @@ float Distance(Complex a,Complex b){
 
 void setup(){
   float val = 0;
-  
+    
   size(650,650);
   surface.setTitle("Complex Fractals");
   surface.setResizable(false);
@@ -63,25 +62,30 @@ void setup(){
   
   for(int i=0;i<650;i++){
     for(int j=0;j<650;j++){
-      float a = map(i,0,900,-0.55,-0.4),
-            b = map(j,0,130,-0.05,-0.03);
+      float a = map(i,0,650,-range,range),
+            b = map(j,0,650,range,-range);
       Complex c2 = new Complex(a,b);
       int n = 0;
-      boolean isOk = false;
+      boolean x = false, y = false, z = false;
       for(;n<maxIterations;n++){
          c2 = N(c2);
-         if(closeTo(c2,root1) || closeTo(c2,root2) || closeTo(c2,root3)){
-           isOk = true;
+         if(closeTo(c2,root1)){
+           x = true;
+           break;
+         }
+         if(closeTo(c2,root2)){
+           y = true;
+           break;
+         }
+         if(closeTo(c2,root3)){
+           z = true;
            break;
          }
       }
-      
-      if(isOk){
-          boolean x = closeTo(c2,root1), y = closeTo(c2,root2), z = closeTo(c2,root3);
-          if(x) val = map(n,0,maxIterations,227,213)*float(maxIterations-n)/float(maxIterations); //blue
-          else if(y) val = map(n,0,maxIterations,100,138); //green
-          else if(z) val = map(n,0,maxIterations,255,300)*(float(n)/float(maxIterations)); //red
-      }
+            
+      if(x) val = map(n,0,maxIterations,100,138); //green
+      else if(y) val = map(n,0,maxIterations,227,213)*float(maxIterations-n)/float(maxIterations); //blue
+      else if(z) val = map(n,0,maxIterations,255,300)*(float(n)/float(maxIterations)); //red
 
       pixels[i+j*650] = color(val,92,88);
     }
@@ -91,5 +95,5 @@ void setup(){
   println("Time required =",p-t,"ms");
   
   updatePixels();
-  save("./Basin3.png");
+  save("./Basin4.png");
 }

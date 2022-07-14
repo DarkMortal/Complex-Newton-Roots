@@ -24,10 +24,11 @@ final float inf = 20 , range = 1;
 
 Complex N(Complex z){
   Complex x = z.product(z);
-  x.real -= 1;
+  x.num_mul(-1.0);
+  x.real += 1;
   Complex y = z;
   y.num_mul(2.0);
-  return x.divide(y);
+  return y.divide(x);
 }
 
 final Complex root1 = new Complex(0,1), //blue
@@ -65,21 +66,23 @@ void setup(){
             b = map(j,0,650,range,-range);
       Complex c2 = new Complex(a,b), c = c2;
       int n = 0;
-      boolean isOk = false;
+      boolean x = false ,y = false;
       for(;n<maxIterations;n++){
          c2 = N(c2);
-         if(closeTo(c2,root1) || closeTo(c2,root2)){
-           isOk = true;
+         if(closeTo(c2,root1)){
+           x =true;
+           break;
+         }
+         if(closeTo(c2,root2)){
+           y = true;
            break;
          }
       }
-            
-      if(isOk){
-          boolean x = closeTo(c2,root1), y = closeTo(c2,root2);
-          if(x) val = map(n,0,maxIterations,227,213)*(float(maxIterations-n)/float(maxIterations)); //blue
-          else if(y) val = map(n,0,maxIterations,255,300)*(float(n)/float(maxIterations)); //red
-      }
+
+      if(x) val = map(n,0,maxIterations,227,213)*(float(maxIterations-n)/float(maxIterations)); //blue
+      else if(y) val = map(n,0,maxIterations,255,300)*(float(n)/float(maxIterations)); //red
       else val = 122; //green
+      
       pixels[i+j*650] = color(val,92,88);
     }
   }

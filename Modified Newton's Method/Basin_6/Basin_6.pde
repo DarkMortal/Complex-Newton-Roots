@@ -24,11 +24,10 @@ final float inf = 3500 , range = 2;
 
 Complex N(Complex z){
   Complex z4 = z.product(z.product(z.product(z)));
-  z4.num_mul(3.0);
-  z4.real += 1.0;
-  Complex z3 = z.product(z.product(z));
-  z3.num_mul(4.0);
-  return z4.divide(z3);
+  z4.real += 3.0;
+  Complex x = z;
+  x.num_mul(4.0);
+  return x.divide(z4);
 }
 
 final Complex root1 = new Complex(1.0,0.0), //green
@@ -68,22 +67,31 @@ void setup(){
             b = map(j,0,650,range,-range);
       Complex c2 = new Complex(a,b);
       int n = 0;
-      boolean isOk = false;
+      boolean x = false, y = false, z = false, o = false;
       for(;n<maxIterations;n++){
          c2 = N(c2);
-         if(closeTo(c2,root1) || closeTo(c2,root2) || closeTo(c2,root3) || closeTo(c2,root4)){
-           isOk = true;
+         if(closeTo(c2,root1)){
+           x = true;
+           break;
+         }
+         if(closeTo(c2,root2)){
+           y = true;
+           break;
+         }
+         if(closeTo(c2,root3)){
+           z = true;
+           break;
+         }
+         if(closeTo(c2,root4)){
+           o = true;
            break;
          }
       }
       
-      if(isOk){
-          boolean x = closeTo(c2,root1), y = closeTo(c2,root2), z = closeTo(c2,root3), o = closeTo(c2,root4);
-          if(x) bright = color(0,255,0);
-          else if(y) bright = color(255,0,0);
-          else if(z) bright = color(0,0,255);
-          else if(o) bright = color(0,255,255);
-      }
+      if(x) bright = color(0,255,0);
+      else if(y) bright = color(255,0,0);
+      else if(z) bright = color(0,0,255);
+      else if(o) bright = color(0,255,255);
 
       pixels[i+j*650] = bright;
     }
